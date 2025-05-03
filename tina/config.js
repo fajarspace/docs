@@ -38,7 +38,6 @@ export default defineConfig({
             type: "datetime",
             name: "date",
             label: "Date",
-            required: false, // tambahkan ini
           },
           {
             type: "boolean",
