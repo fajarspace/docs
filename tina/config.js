@@ -11,12 +11,12 @@ export default defineConfig({
 
   build: {
     outputFolder: "admin",
-    publicFolder: "public", // Changed from "public" to "public" for Hugo
+    publicFolder: "static", // Changed from "public" to "static" for Hugo
   },
   media: {
     tina: {
       mediaRoot: "images", // Added a specific media folder
-      publicFolder: "public", // Changed from "public" to "public" for Hugo
+      publicFolder: "static", // Changed from "public" to "static" for Hugo
     },
   },
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
@@ -38,7 +38,7 @@ export default defineConfig({
             type: "datetime",
             name: "date",
             label: "Date",
-            required: true, // tambahkan ini
+            required: false, // tambahkan ini
           },
           {
             type: "boolean",
