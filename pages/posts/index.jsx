@@ -21,7 +21,7 @@ export const getStaticProps = async () => {
       );
       const { data: frontmatter } = matter(markdownWithMeta);
 
-      if (frontmatter.draft === true || !frontmatter.date) {
+      if (frontmatter.draft === true) {
         return null;
       }
 
