@@ -8,7 +8,6 @@ import Link from "next/link";
 import Head from "next/head";
 import { metadata } from "@/theme.config";
 import { useRouter } from "next/router";
-import { format, parseISO } from "date-fns";
 
 const PostPage = ({
   frontMatter: { title, date, description, featured_image, tags, author },
@@ -16,12 +15,12 @@ const PostPage = ({
 }) => {
   const router = useRouter();
 
-  // Function to handle the "Back" link click
   const handleBackClick = () => {
-    router.back(); // Navigate to the previous page
+    router.back();
   };
 
   const pageTitle = `${metadata.title} - ${title}`;
+
   return (
     <>
       <RootLayout>
@@ -40,10 +39,17 @@ const PostPage = ({
         <h1>{title}</h1>
         <div className="meta-line">
           <div className="meta">
-            {author}, <time>{date}</time> &bull;
-            <span className="tag">{tags}</span>
+            {author},{" "}
+            <time>
+              {new Date(date).toLocaleDateString("id-ID", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </time>{" "}
+            &bull; <span className="tag">{tags}</span>
           </div>
-          <Link href={"#"} className="meta-back" onClick={handleBackClick}>
+          <Link href="#" className="meta-back" onClick={handleBackClick}>
             Back
           </Link>
         </div>
@@ -59,7 +65,7 @@ const getStaticPaths = async () => {
 
   const paths = files.map((filename) => ({
     params: {
-      slug: filename.replace(".md", ""),
+      slug: filename.replace(/\.mdx?$/, ""),
     },
   }));
 
@@ -73,20 +79,17 @@ const getStaticProps = async ({ params: { slug } }) => {
   const supportedExtensions = [".md", ".mdx"];
   let markdownWithMeta = null;
 
-  for (const extension of supportedExtensions) {
+  for (const ext of supportedExtensions) {
     try {
       markdownWithMeta = fs.readFileSync(
-        path.join("content/posts", slug + extension),
+        path.join("content/posts", slug + ext),
         "utf-8"
       );
-      break; // If we successfully read a file, exit the loop
-    } catch (err) {
-      // File not found, try the next extension
-    }
+      break;
+    } catch (e) {}
   }
 
   if (!markdownWithMeta) {
-    // Handle the case when neither .md nor .mdx files are found
     return {
       notFound: true,
     };
@@ -94,17 +97,13 @@ const getStaticProps = async ({ params: { slug } }) => {
 
   const { data: frontMatter, content } = matter(markdownWithMeta);
 
-  // Menggunakan date-fns untuk memformat tanggal menjadi string dalam format tertentu
-  const formattedDate = format(new Date(frontMatter.date), "dd MMM yyyy");
-
-  // Use next-mdx-remote/serialize to convert Markdown/MDX content to mdxSource
   const mdxSource = await serialize(content);
 
   return {
     props: {
       frontMatter: {
         ...frontMatter,
-        date: formattedDate, // Mengirimkan tanggal sebagai string yang sudah diformat
+        date: new Date(frontMatter.date).toISOString(), // ubah ke string
       },
       slug,
       mdxSource,
