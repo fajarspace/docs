@@ -11,12 +11,12 @@ export default defineConfig({
 
   build: {
     outputFolder: "admin",
-    publicFolder: "out", // Changed from "public" to "static" for Hugo
+    publicFolder: "public", // Changed from "public" to "static" for Hugo
   },
   media: {
     tina: {
       mediaRoot: "images", // Added a specific media folder
-      publicFolder: "out", // Changed from "public" to "static" for Hugo
+      publicFolder: "public", // Changed from "public" to "static" for Hugo
     },
   },
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
