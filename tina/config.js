@@ -31,8 +31,7 @@ export default defineConfig({
             type: "string",
             name: "title",
             label: "Title",
-            isTitle: true,
-            required: true,
+            required: false,
           },
           {
             type: "datetime",
@@ -56,6 +55,7 @@ export default defineConfig({
             type: "string",
             name: "description",
             label: "Description",
+            required: false,
             ui: {
               component: "textarea",
             },
@@ -65,12 +65,14 @@ export default defineConfig({
             name: "tags",
             label: "Tags",
             list: true,
+            required: false,
           },
           {
             type: "rich-text",
             name: "body",
             label: "Body",
             isBody: true,
+            required: false,
           },
         ],
         ui: {
