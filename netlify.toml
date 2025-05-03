@@ -3,4 +3,5 @@
   publish = "out"
 
 [build.environment]
-  NODE_VERSION = "16"  # Ganti dengan versi Node.js yang sesuai dengan persyaratan ESLint
+  NODE_VERSION = "16"
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
