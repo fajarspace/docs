@@ -38,6 +38,7 @@ export default defineConfig({
             type: "datetime",
             name: "date",
             label: "Date",
+            required: true, // tambahkan ini
           },
           {
             type: "boolean",
@@ -58,12 +59,6 @@ export default defineConfig({
             ui: {
               component: "textarea",
             },
-          },
-          {
-            type: "string",
-            name: "tags",
-            label: "Tags",
-            list: true,
           },
           {
             type: "rich-text",
