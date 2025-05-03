@@ -1,24 +1,25 @@
 import { defineConfig } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
-const branch =
-  process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "master";
+const branch = "master";
 
 export default defineConfig({
-  branch: branch,
+  branch,
+
   clientId: "c3b5e798-69d9-42c1-b6b5-104fb1ab4e31", // Get this from tina.io
   token: "11c822578b53ad2aa8a40e2cba517f6177c77b63", // Get this from tina.io
 
   build: {
     outputFolder: "admin",
-    publicFolder: "public",
+    publicFolder: "static", // Changed from "public" to "static" for Hugo
   },
   media: {
     tina: {
-      mediaRoot: "",
-      publicFolder: "public",
+      mediaRoot: "images", // Added a specific media folder
+      publicFolder: "static", // Changed from "public" to "static" for Hugo
     },
   },
+  // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
       {
@@ -26,11 +27,6 @@ export default defineConfig({
         label: "Posts",
         path: "content/posts",
         fields: [
-          {
-            type: "boolean", // Tambahkan field boolean untuk draft
-            name: "draft",
-            label: "Draft",
-          },
           {
             type: "string",
             name: "title",
@@ -40,13 +36,35 @@ export default defineConfig({
           },
           {
             type: "datetime",
-            name: "date", // Date field
+            name: "date",
             label: "Date",
+            required: false, // tambahkan ini
+          },
+          {
+            type: "boolean",
+            name: "draft",
+            label: "Draft",
+            required: false,
+          },
+          {
+            type: "image",
+            name: "image",
+            label: "Featured Image",
+            required: false,
           },
           {
             type: "string",
-            name: "description", // Description field
+            name: "description",
             label: "Description",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "tags",
+            label: "Tags",
+            list: true,
           },
           {
             type: "rich-text",
@@ -54,29 +72,19 @@ export default defineConfig({
             label: "Body",
             isBody: true,
           },
-          {
-            type: "image", // Featured Image field
-            name: "featured_image",
-            label: "Featured Image",
-          },
-          {
-            type: "string",
-            name: "author", // Author field
-            label: "Author",
-          },
         ],
         ui: {
-          router: ({ document }) => `/demo/blog/${document._sys.filename}`,
+          filename: {
+            readonly: true,
+            slugify: (values) => {
+              return `${values?.title
+                ?.toLowerCase()
+                .replace(/ /g, "-")
+                .replace(/[^a-z0-9-]/g, "")}`;
+            },
+          },
         },
       },
     ],
-  },
-  search: {
-    tina: {
-      indexerToken: "ff0a5292ae527c9c9f69bbbc5e26c26a3c0b025b",
-      stopwordLanguages: ["eng"],
-    },
-    indexBatchSize: 100,
-    maxSearchIndexFieldLength: 100,
   },
 });

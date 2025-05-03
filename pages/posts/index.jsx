@@ -109,13 +109,13 @@ export default function Posts({ posts }) {
                   Baca &rarr;
                 </Link>
               </p>
-              <time className="post-item-date">
+              {/* <time className="post-item-date">
                 {new Date(post.frontmatter.date).toLocaleDateString("id-ID", {
                   day: "2-digit",
                   month: "short",
                   year: "numeric",
                 })}
-              </time>
+              </time> */}
             </div>
           ))}
         </ul>

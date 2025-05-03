@@ -3,7 +3,6 @@ draft: false
 title: Asumsikan keduanya benarrrr
 date: 2021-08-20T00:00:00.000Z
 description: "Alih-alih 'ini' atau 'itu', jawabannya mungkin 'keduanya'"
-featured_image: "https://i.ibb.co/sHg9XBZ/pexels-andres-ayrton-6551415.jpg"
 author: Saya
 ---
 
